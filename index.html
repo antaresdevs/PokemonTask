@@ -5,18 +5,12 @@
 	<title></title>
 
 <script type="text/javascript">
-$.get( "http://pokeapi.co/api/v1/pokemon/?limit=12", function( data ) {
-	$.each(data.objects, function (keyPokem, val){
-		$( "#pokemon-" + (keyPokem+1)).html( val.name );
-		  console.log(val);
+for(var i = 1; i<13; i++) {
+$.get( "http://pokeapi.co/api/v2/pokemon/" + i, function( data ) {
+		$( "#pokemon-" + (data.id)).html( data.name );
+		  console.log(data);
 	});
-	});
-  
-//Вывод данных по одному покемону
-// $.get( "http://pokeapi.co/api/v2/pokemon/2/", function( data ) {
- // $( "#pokemon-2" ).html( data.name );
- // console.log(data);
-//});
+ }
 
 </script>
 

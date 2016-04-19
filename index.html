@@ -6,11 +6,50 @@
 
 <script type="text/javascript">
 for(var i = 1; i<13; i++) {
-$.get( "http://pokeapi.co/api/v2/pokemon/" + i, function( data ) {
-		$( "#pokemon-" + (data.id)).html( data.name );
-		  console.log(data);
-	});
- }
+	$.get( "http://pokeapi.co/api/v2/pokemon/" + i, function( data ) {
+			$( "#pokemon-" + (data.id)).html( data.name );
+			  console.log(data);
+		});
+	 }
+
+var currentPokInfo = ()
+
+var divPok = function(v){
+	return "<div>" + v + "</div>"
+} 
+
+var parsePokData = function(d) {
+	currentPokInfo.name = d.name;
+	currentPokInfo.weight = d.weight;
+	types = []
+	for (var i = 0; i < d.types.length; i++) {
+		types[i] = d.types[i].type.name     
+	}
+	
+	currentPokInfo.types = types;
+	currentPokInfo.totalMoves = d.moves.length;
+
+	for (var i = 0; i < d.stats.length; i++) {
+		currentPokInfo[d.stats[i].stat.name] = d.stats[i].stat   //   последняя строка? 
+}
+}
+
+ 	  $.get( "http://pokeapi.co/api/v2/pokemon/1/", function (dataPokenom) {
+ 	  	parsePokData(data);
+ 	  	$('#pok-profile')
+
+	  })
+
+
+
+
+//почему отличается ссылка api? 
+// откуда Петя знал как вытащить типы? :)
+//как добавить остальные параметры - атака и пр
+// почему не ставим точки с  запятой?
+// d.types.length - what's this?
+// цикл с  type и name просьба еще раз объяснить.
+
 
 </script>
 
@@ -76,5 +115,11 @@ $.get( "http://pokeapi.co/api/v2/pokemon/" + i, function( data ) {
 		</td>
 	</tr>
 </table>
+
+<table>
+  <div id = "pok-profile">
+</table>
 </body>
 </html>
+
+

@@ -1,125 +1,149 @@
 <!DOCTYPE html>
 <html>
 <head>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-	<title></title>
+	<title>Pokedex</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">  
+  	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script type="text/javascript">
+	  
+	  var currentInfo = {}
+	  
+	  var div = function(v){
+	    return "<div>" + v + "</div>"
+	  } 
+	  
+	  var parseData = function(d) {
+		currentInfo.name = d.name
+		currentInfo.weight = d.weight
+		currentInfo.img = d.sprites.front_default
+		//console.log(d.sprites.front_default)
+		
+		
+		types = []
+		for(var i = 0; i < d.types.length; i++) {
+		  types[i] = d.types[i].type.name
+		}
+		currentInfo.types = types
+		currentInfo.totalMoves = d.moves.length 
+		for (var i = 0; i < d.stats.length; i++) {
+		   currentInfo[d.stats[i].stat.name] = d.stats[i].stat
+		}
+	  }
+	  
+	  $.get("http://pokeapi.co/api/v2/pokemon/?limit=12", function(data) {
+	  	var allPokemons = data.results;
+	  	console.log(allPokemons);
+	  	for(var i = 0; i < allPokemons.length; i++) {
+	  		$("#all-pokemons").append(
+	  			'<div class ="rectangle">' + 
+	  			'<img class="pokemon-img" src = "http://pokeapi.co/media/img/' + (i+1) + '.png">' + 
+	  			'<p>' + allPokemons[i].name + '</p>' + '</div>');
+	  		console.log(i+1);
 
-<script type="text/javascript">
-for(var i = 1; i<13; i++) {
-	$.get( "http://pokeapi.co/api/v2/pokemon/" + i, function( data ) {
-			$( "#pokemon-" + (data.id)).html( data.name );
-			  console.log(data);
-		});
-	 }
-
-var currentPokInfo = ()
-
-var divPok = function(v){
-	return "<div>" + v + "</div>"
-} 
-
-var parsePokData = function(d) {
-	currentPokInfo.name = d.name;
-	currentPokInfo.weight = d.weight;
-	types = []
-	for (var i = 0; i < d.types.length; i++) {
-		types[i] = d.types[i].type.name     
-	}
-	
-	currentPokInfo.types = types;
-	currentPokInfo.totalMoves = d.moves.length;
-
-	for (var i = 0; i < d.stats.length; i++) {
-		currentPokInfo[d.stats[i].stat.name] = d.stats[i].stat   //   последняя строка? 
-}
-}
-
- 	  $.get( "http://pokeapi.co/api/v2/pokemon/1/", function (dataPokenom) {
- 	  	parsePokData(data);
- 	  	$('#pok-profile')
-
-	  })
-
-
-
-
-//почему отличается ссылка api? 
-// откуда Петя знал как вытащить типы? :)
-//как добавить остальные параметры - атака и пр
-// почему не ставим точки с  запятой?
-// d.types.length - what's this?
-// цикл с  type и name просьба еще раз объяснить.
-
-
-</script>
-
+	  	}
+	  });
+	  
+	 //  $.get("http://pokeapi.co/api/v2/pokemon/1", function(data) {
+		// parseData (data);
+		// $("#profile").html(
+		// div("Name") + div(currentInfo.name) +
+		// div("Weight") + div(currentInfo.weight)
+		// )
+		// $(".pokemon-selected-name").text(currentInfo.name); 
+		// $(".pokemon-image").html('<img src="' + currentInfo.img + '">');
+		// });
+	  
+    //$.each(data.objects,function(key,val){
+ 	//$( "#pokemon-"+(key+1) ).html( val.name );
+	//console.log(val);
+ 	//$( "#rectangle"+(key+1)+" .name" ).html( val.name );
+  	//console.log(val);
+	</script>
 </head>
 <body>
-<h1>Hello World!</h1>
-<table border = "1px solid grey">
-	<tr>
-		<td id="pokemon-1">
-			<div class = "pokemon"></div>
-			<div class = "hidden-info"></div> 
-			</td>
-		<td id="pokemon-2">
-			<div class = "pokemon"></div>
-			<div class = "hidden-info"></div> 
-		</td>
-		<td id="pokemon-3">
-			<div class = "pokemon"></div>
-			<div class = "hidden-info"></div> 
-		</td>
-	</tr>
+	<h2>Pokedex</h2>
+		<div id="grid">
+		<div id="all-pokemons" class="col-1">
+			
+		</div> 
+	
+		<div class="col-1">
+			<div id ="selected-pokemon">
+				<div class="pokemon-image"></div>
+				<div class="pokemon-selected-name"></div>
+				<div class="pokemon-details"></div>					
+				
+		
+			
+			</div>
+			
+		</div>
+			<div id="profile">
+			</div>
+			
 
-	<tr>
-		<td id="pokemon-4">
-			<div class = "pokemon"></div>
-			<div class = "hidden-info"></div> 
-			</td>
-		<td id="pokemon-5">
-			<div class = "pokemon"></div>
-			<div class = "hidden-info"></div> 
-			</td>
-		<td id="pokemon-6">
-			<div class = "pokemon"></div>
-			<div class = "hidden-info"></div> 
-			</td>
-	</tr>
-	<tr>
-		<td id="pokemon-7">
-			<div class = "pokemon"></div>
-			<div class = "hidden-info"></div> 
-		</td>
-		<td id="pokemon-8">
-			<div class = "pokemon"></div>
-			<div class = "hidden-info"></div> 
-		</td>
-		<td id="pokemon-9">
-			<div class = "pokemon"></div>
-			<div class = "hidden-info"></div> 
-		</td>
-	</tr>
-	<tr>
-		<td id="pokemon-10">
-			<div class = "pokemon"></div>
-			<div class = "hidden-info"></div> 
-		</td>
-		<td id="pokemon-11">
-			<div class = "pokemon"></div>
-			<div class = "hidden-info"></div> 
-		</td>
-		<td id="pokemon-12">
-			<div class = "pokemon"></div>
-			<div class = "hidden-info"></div> 
-		</td>
-	</tr>
-</table>
+			<!-- <table border = "1px solid grey">
+				<tr>
+					<td id="pokemon-1">
+						<div class = "pokemon"></div>
+						<div class = "hidden-info"></div> 
+						</td>
+					<td id="pokemon-2">
+						<div class = "pokemon"></div>
+						<div class = "hidden-info"></div> 
+					</td>
+					<td id="pokemon-3">
+						<div class = "pokemon"></div>
+						<div class = "hidden-info"></div> 
+					</td>
+				</tr>
 
-<table>
-  <div id = "pok-profile">
-</table>
+				<tr>
+					<td id="pokemon-4">
+						<div class = "pokemon"></div>
+						<div class = "hidden-info"></div> 
+						</td>
+					<td id="pokemon-5">
+						<div class = "pokemon"></div>
+						<div class = "hidden-info"></div> 
+						</td>
+					<td id="pokemon-6">
+						<div class = "pokemon"></div>
+						<div class = "hidden-info"></div> 
+						</td>
+				</tr>
+				<tr>
+					<td id="pokemon-7">
+						<div class = "pokemon"></div>
+						<div class = "hidden-info"></div> 
+					</td>
+					<td id="pokemon-8">
+						<div class = "pokemon"></div>
+						<div class = "hidden-info"></div> 
+					</td>
+					<td id="pokemon-9">
+						<div class = "pokemon"></div>
+						<div class = "hidden-info"></div> 
+					</td>
+				</tr>
+				<tr>
+					<td id="pokemon-10">
+						<div class = "pokemon"></div>
+						<div class = "hidden-info"></div> 
+					</td>
+					<td id="pokemon-11">
+						<div class = "pokemon"></div>
+						<div class = "hidden-info"></div> 
+					</td>
+					<td id="pokemon-12">
+						<div class = "pokemon"></div>
+						<div class = "hidden-info"></div> 
+						</td>
+					</tr>
+				</table> -->
+		</div>
+</div>
 </body>
 </html>
-
-
